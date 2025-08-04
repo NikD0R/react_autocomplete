@@ -13,6 +13,7 @@ export const App: React.FC<AppProps> = ({ delay = 300 }) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<Person[]>([]);
   const [selected, setSelected] = useState<Person | null>(null);
+  const [dropDown, setDropDown] = useState(false);
 
   function updateSuggestions(newQuery: string) {
     setSuggestions(
@@ -29,13 +30,14 @@ export const App: React.FC<AppProps> = ({ delay = 300 }) => {
       setSelected(null);
     }
 
-    setQuery(event.target.value.toLowerCase());
-    applyQuery(event.target.value.toLowerCase());
+    setQuery(event.target.value);
+    applyQuery(event.target.value);
   }
 
   function handleFocusInput(event: React.FocusEvent<HTMLInputElement>) {
     if (event.target.value === '') {
       setSuggestions(peopleFromServer);
+      setDropDown(true);
     }
   }
 
@@ -54,6 +56,7 @@ export const App: React.FC<AppProps> = ({ delay = 300 }) => {
           suggestions={suggestions}
           setSuggestions={setSuggestions}
           setSelected={setSelected}
+          dropDown={dropDown}
         />
       </main>
     </div>

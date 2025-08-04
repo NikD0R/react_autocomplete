@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { Person } from '../../types/Person';
 
 type Props = {
@@ -7,6 +8,7 @@ type Props = {
   suggestions: Person[];
   setSuggestions: React.Dispatch<React.SetStateAction<Person[]>>;
   setSelected: React.Dispatch<React.SetStateAction<Person | null>>;
+  dropDown: boolean;
 };
 
 export const Autocomplete: React.FC<Props> = ({
@@ -16,10 +18,15 @@ export const Autocomplete: React.FC<Props> = ({
   suggestions,
   setSuggestions,
   setSelected,
+  dropDown,
 }) => {
   return (
     <>
-      <div className="dropdown is-active">
+      <div
+        className={classNames('dropdown', {
+          'is-active': dropDown && suggestions.length > 0,
+        })}
+      >
         <div className="dropdown-trigger">
           <input
             type="text"
