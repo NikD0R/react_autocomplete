@@ -16,7 +16,7 @@ export const App: React.FC<AppProps> = ({ delay = 300 }) => {
   function updateSuggestions(newQuery: string) {
     setSuggestions(
       peopleFromServer.filter(person =>
-        person.name.toLowerCase().includes(newQuery),
+        person.name.toLowerCase().includes(newQuery.toLowerCase()),
       ),
     );
   }
