@@ -3,6 +3,7 @@ import './App.scss';
 import { peopleFromServer } from './data/people';
 import debounce from 'lodash.debounce';
 import { Person } from './types/Person';
+import { Autocomplete } from './components/Autocomplete';
 
 interface AppProps {
   delay?: number;
@@ -46,52 +47,14 @@ export const App: React.FC<AppProps> = ({ delay = 300 }) => {
             ? `${selected.name} (${selected.born} - ${selected.died})`
             : 'No selected person'}
         </h1>
-
-        <div className="dropdown is-active">
-          <div className="dropdown-trigger">
-            <input
-              type="text"
-              placeholder="Enter a part of the name"
-              className="input"
-              data-cy="search-input"
-              value={query}
-              onChange={handleQueryChange}
-              onFocus={handleFocusInput}
-              onBlur={() => setSuggestions([])}
-            />
-          </div>
-
-          <div className="dropdown-menu" role="menu" data-cy="suggestions-list">
-            <div className="dropdown-content">
-              {suggestions.map(suggestion => (
-                <div
-                  className="dropdown-item"
-                  data-cy="suggestion-item"
-                  key={suggestion.name}
-                  onMouseDown={() => setSelected(suggestion)}
-                >
-                  <p className="has-text-link">{suggestion.name}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {query !== '' && suggestions.length === 0 && (
-          <div
-            className="
-              notification
-              is-danger
-              is-light
-              mt-3
-              is-align-self-flex-start
-            "
-            role="alert"
-            data-cy="no-suggestions-message"
-          >
-            <p className="has-text-danger">No matching suggestions</p>
-          </div>
-        )}
+        <Autocomplete
+          handleFocusInput={handleFocusInput}
+          handleQueryChange={handleQueryChange}
+          query={query}
+          suggestions={suggestions}
+          setSuggestions={setSuggestions}
+          setSelected={setSelected}
+        />
       </main>
     </div>
   );
